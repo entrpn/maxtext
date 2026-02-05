@@ -49,10 +49,10 @@ from orbax import checkpoint
 from MaxText import optimizers
 from MaxText import pyconfig
 from MaxText import tokenizer
+from MaxText.input_pipeline import input_pipeline_interface
 from maxtext.utils import max_logging
 from maxtext.utils import maxtext_utils
 from maxtext.utils import model_creation_utils
-from maxtext.utils import train_utils
 
 # Tunix Imports
 from tunix.distillation import distillation_trainer
@@ -309,7 +309,7 @@ class MaxTextDistillationTrainer(distillation_trainer.DistillationTrainer):
 class MaxTextToTunixIterator:
   """Adapts the raw dictionary output of MaxText's data loader to Tunix objects.
 
-  MaxText's `train_utils.create_data_iterator` yields a dictionary.
+  MaxText's `input_pipeline_interface.create_data_iterator` yields a dictionary.
   Tunix expects an object with specific attributes (input_tokens, etc.).
   """
 
@@ -503,7 +503,7 @@ def train_distill(student_config: pyconfig.HyperParameters, teacher_config: pyco
   # We use MaxText's native create_data_iterator which creates both train and eval iterators
   # based on the config parameters (dataset_type, eval_interval, etc.)
   max_logging.log("Initializing Data Iterators via MaxText pipeline...")
-  raw_train_iter, raw_eval_iter = train_utils.create_data_iterator(student_config, mesh)
+  raw_train_iter, raw_eval_iter = input_pipeline_interface.create_data_iterator(student_config, mesh)
 
   train_iter = MaxTextToTunixIterator(raw_train_iter)
 

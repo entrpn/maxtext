@@ -1018,6 +1018,7 @@ class Distillation(BaseModel):
   # --- Loss Params ---
   distill_alpha: float = Field(0.5, description="Weight for the distillation loss component.")
   distill_temperature: float = Field(1.0, description="Temperature for distillation softening.")
+  cosine_learning_rate_final_fraction: float = Field(0.1, description="Cosine learning rate final fraction.")
 
 
 class TrainingLoop(BaseModel):
